@@ -7,10 +7,10 @@ that makes the Google Drive API tasks easier like common os module.
 
 Main extensions:
 
-* Easy creation of a directory.
-* Delete function for Google Drive file, directory.
-* File path access for Google Drive file.
-* File visitor like os.walk.
+* Support file path access for Google Drive directories and files.
+* Provide easy create / upload function for Google Drive directories and files.
+* Provide delete function for Google Drive directories and files.
+* Support Google Drive file visitor like os.walk.
 
 ## Installation
 
@@ -70,8 +70,7 @@ To make this code work, you need to prepare the your Google Drive setting to run
   * Select *Application type* to be Web application.
 4. Download client_secrets.json and put it in your working directory.
 
-I recommend you to create **settings.yaml** to save credentials file.
-Authentication process will be skipped from the second time.
+I highly recommend you to create **settings.yaml** to save credentials file.
 
 ``` yaml
 client_config_backend: file
@@ -81,6 +80,11 @@ save_credentials: True
 save_credentials_backend: file
 save_credentials_file: credentials.json
 ```
+
+If the file is put in the same working directory,
+the authentication process will be skipped from the second time.
+
+
 
 ## File Management
 
