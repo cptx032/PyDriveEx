@@ -23,6 +23,15 @@ You can easily install these packages with the following commands.
   > pip install PyDrive
 ```
 
+### Install main modules
+
+You can use **pip** command for installing main modules.
+Please run the following command from the shell.
+
+``` bash
+  > pip install git+https://github.com/tody411/PyDriveEx.git
+```
+
 ## Quick Start
 
 PyDriveEx can make the GoogleDrive instance in just one line with the default PyDrive authentication setting.
