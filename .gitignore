@@ -45,3 +45,19 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Eclipse
+.settings
+.project
+.pydevproject
+
+# Python
+*.pyc
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
+# Google Drive
+client_secrets.json
+credentials.json
