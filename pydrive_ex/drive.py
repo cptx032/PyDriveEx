@@ -10,7 +10,7 @@ import pydrive.drive
 import os
 
 from auth import GoogleAuth
-from files import GoogleDriveFile, GoogleDriveFileList
+from files import GoogleDriveFile, GoogleDriveFileList, FileDeleteError
 
 
 ## Simple extension of pydrive.drive.GoogleDrive.
@@ -30,7 +30,6 @@ class GoogleDrive:
     #  If parent directories do not exist, they are automatically created.
     #  This method would not upload.
     def createFile(self, file_path, mime_type=None):
-
         parent_dir = os.path.split(file_path)[0]
         if parent_dir != "":
             if not self.exists(parent_dir):
@@ -55,7 +54,11 @@ class GoogleDrive:
     #  @param  file_path  target Google Drive file path.
     def deleteFile(self, file_path):
         gfile = self.file(file_path)
-        gfile.delete()
+        if not gfile is None:
+            gfile.delete()
+        else:
+            raise FileDeleteError()
+
 
     ## Upload local file to Google Drive.
     #

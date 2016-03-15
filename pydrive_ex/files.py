@@ -20,8 +20,9 @@ class GoogleDriveFile:
     def __init__(self, gfile):
         self._gfile = gfile
         self.title = self._gfile['title']
-        self.id = self._gfile['id']
-        self.mime_type = self._gfile['mimeType']
+        self.id = None
+        self.mime_type = None
+        self._updateAttr()
 
     ## Return if the Google Drive file is directory or not.
     def isDir(self):
@@ -60,6 +61,7 @@ class GoogleDriveFile:
     ## Upload the file to the Google Drive.
     def upload(self):
         self._gfile.Upload()
+        self._updateAttr()
 
     ## Return the string representation of the Google Drive file.
     def __str__(self):
@@ -71,6 +73,14 @@ class GoogleDriveFile:
             ret_str += "<File> "
         ret_str += self.title
         return ret_str
+
+    ## Update the inner attributes.
+    def _updateAttr(self):
+        self.title = self._gfile['title']
+        if self._gfile.has_key('id'):
+            self.id = self._gfile['id']
+        if self._gfile.has_key('mimeType'):
+            self.mime_type = self._gfile['mimeType']
 
 
 class GoogleDriveFileList:
