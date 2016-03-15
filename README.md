@@ -81,8 +81,8 @@ txt_file.setContentString("Hello World!\n") # Set the content string of the file
 txt_file.upload()                           # Upload the text file.
 
 image_file = gdrive.createFile("gimages/TestImage.png")       # Create Google Drive File instance with 'TestImage.png'
-image_file.setContentFile("images/TestImage.png") # Specify the local file.
-image_file.upload()                               # Upload the text file.
+image_file.setContentFile("images/TestImage.png") # Specify a local file.
+image_file.upload()                               # Upload the image file.
 
 # For more convenient, GoogleDrive object has uploadFile function.
 gdrive.uploadFile("gimages/TestImage.png", "images/TestImage.png")
@@ -94,6 +94,41 @@ If the file exists, this method just update the Google Drive file.
 Most of the case, GoogleDrive.uploadFile is convenient for uploading the file.
 
 You can specify the directory structure via "/" like a usual local file path.
+
+### Find a file
+
+You can access a Google Drive file with a file path in a way similar to the local file system.
+
+``` python
+from pydrive_ex.drive import GoogleDrive
+
+gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
+gfile = gdrive.file("gimages/TestImage.png")  # Find a file with the given file path.
+
+## Print Google Drive file attributes.
+print gfile
+print " title    : ", gfile.title
+print " file_path: ", gfile.file_path
+print " isDir    : ", gfile.isDir()
+print " isFile   : ", gfile.isFile()
+print " id       : ", gfile.id
+print " mime_type: ", gfile.mime_type
+
+```
+
+GoogleDriveFile provides attributes and functions to access Google Drive file properties.
+The output will be:
+
+``` bash
+<File> gimages/TestImage.png
+ title    :  TestImage.png
+ file_path:  gimages/TestImage.png
+ isDir    :  False
+ isFile   :  True
+ id       :  0B73BaE77JCgfZU1Jc2RDMVpuMEC
+ mime_type:  image/png
+```
+
 
 ### Download a file
 
