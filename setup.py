@@ -16,5 +16,4 @@ setup(
         author = __author__,
         url = 'https://github.com/tody411/PyDriveEx.git',
         packages = find_packages(),
-        install_requires = ['google-api-python-client', 'PyDrive'],
         )
