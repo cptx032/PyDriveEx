@@ -123,12 +123,15 @@ gfile = gdrive.file("gimages/TestImage.png")  # Find a file with the given file 
 
 ## Print Google Drive file attributes.
 print gfile
-print " title    : ", gfile.title
-print " file_path: ", gfile.file_path
-print " isDir    : ", gfile.isDir()
-print " isFile   : ", gfile.isFile()
-print " id       : ", gfile.id
-print " mime_type: ", gfile.mime_type
+print " title        : ", gfile.title
+print " file_path    : ", gfile.file_path
+print " file_size    : ", gfile.file_size
+print " isDir        : ", gfile.isDir()
+print " isFile       : ", gfile.isFile()
+print " id           : ", gfile.id
+print " mime_type    : ", gfile.mime_type
+print " created_date : ", gfile.created_date
+print " modified_date: ", gfile.modified_date
 
 ```
 
@@ -138,12 +141,15 @@ The output will be:
 
 ``` bash
 <File> gimages/TestImage.png
- title    :  TestImage.png
- file_path:  gimages/TestImage.png
- isDir    :  False
- isFile   :  True
- id       :  0B73BaE77JCgfZU1Jc2RDMVpuMEC
- mime_type:  image/png
+ title        :  TestImage.png
+ file_path    :  gimages/TestImage.png
+ file_size    :  19251
+ isDir        :  False
+ isFile       :  True
+ id           :  0B73BaE77JCgfZU1Jc2RDMVpuMEC
+ mime_type    :  image/png
+ created_date :  2016-03-15T05:58:07.607Z
+ modified_date:  2016-03-15T05:58:09.870Z
 ```
 
 

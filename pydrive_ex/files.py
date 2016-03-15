@@ -23,6 +23,9 @@ class GoogleDriveFile:
         self.id = None
         self.mime_type = None
         self.file_path = file_path
+        self.created_date = None
+        self.modified_date = None
+        self.file_size = None
         self._updateAttr()
 
     ## Return if the Google Drive file is directory or not.
@@ -82,6 +85,12 @@ class GoogleDriveFile:
             self.id = self._gfile['id']
         if self._gfile.has_key('mimeType'):
             self.mime_type = self._gfile['mimeType']
+        if self._gfile.has_key('createdDate'):
+            self.created_date = self._gfile['createdDate']
+        if self._gfile.has_key('modifiedDate'):
+            self.modified_date = self._gfile['modifiedDate']
+        if self._gfile.has_key('quotaBytesUsed'):
+            self.file_size = self._gfile['quotaBytesUsed']
 
 
 class GoogleDriveFileList:

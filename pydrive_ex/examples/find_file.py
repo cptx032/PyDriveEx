@@ -12,9 +12,12 @@ gfile = gdrive.file("gimages/TestImage.png")  # Find a file with the given file 
 
 ## Print Google Drive file attributes.
 print gfile
-print " title    : ", gfile.title
-print " file_path: ", gfile.file_path
-print " isDir    : ", gfile.isDir()
-print " isFile   : ", gfile.isFile()
-print " id       : ", gfile.id
-print " mime_type: ", gfile.mime_type
+print " title        : ", gfile.title
+print " file_path    : ", gfile.file_path
+print " file_size    : ", gfile.file_size
+print " isDir        : ", gfile.isDir()
+print " isFile       : ", gfile.isFile()
+print " id           : ", gfile.id
+print " mime_type    : ", gfile.mime_type
+print " created_date : ", gfile.created_date
+print " modified_date: ", gfile.modified_date
