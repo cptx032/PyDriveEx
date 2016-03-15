@@ -2,14 +2,15 @@
 Simple PyDrive Extension. (Python)
 ====
 
-This package provides a simple extension of [PyDrive](http://pythonhosted.org/PyDrive/) that wraps the Google Drive API tasks as like a common os module.
+This package provides a simple extension of [PyDrive](http://pythonhosted.org/PyDrive/)
+that makes the Google Drive API tasks easier like common os module.
 
 Main extensions:
 
-* Making easy to create a directory.
-* File path access for Google Drive file.
-* Additional Google Drive file attributes to treat them like a local file system.
+* Easy creation of a directory.
 * Delete function for Google Drive file, directory.
+* File path access for Google Drive file.
+* File visitor like os.walk.
 
 ## Installation
 
@@ -92,22 +93,28 @@ GoogleDrive.uploadFile function.
 from pydrive_ex.drive import GoogleDrive
 
 gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
-txt_file = gdrive.createFile("Hello.txt")   # Create Google Drive File instance with 'Hello.txt'
+
+# Create directory.
+gdrive.createDir("PDTest/TestDir")
+
+# Upload a text file via GoogleDriveFile instance.
+txt_file = gdrive.createFile("PDTest/Hello.txt", upload=False)
 txt_file.setContentString("Hello World!\n") # Set the content string of the file.
 txt_file.upload()                           # Upload the text file.
 
-image_file = gdrive.createFile("gimages/TestImage.png")       # Create Google Drive File instance with 'TestImage.png'
+# Upload a image file via GoogleDriveFile instance.
+image_file = gdrive.createFile("PDTest/Image/HelloImage.png", upload=False)
 image_file.setContentFile("images/TestImage.png") # Specify a local file.
 image_file.upload()                               # Upload the image file.
 
-# For more convenient, GoogleDrive object has uploadFile function.
-gdrive.uploadFile("gimages/TestImage.png", "images/TestImage.png")
+# For simpler usage, GoogleDrive object has uploadFile function.
+gdrive.uploadFile("PDTest/Image/HelloImage.png", "images/TestImage.png")
+
 ```
 
-GoogleDrive.uploadFile will automatically create the Google Drive file
-if the file does not exist.
-If the file exists, this method just update the Google Drive file.
-Most of the case, GoogleDrive.uploadFile is convenient for uploading the file.
+GoogleDrive.uploadFile combines the creation and uploading.
+If the given file path already exists, this method will just update the file.
+Most of the case, GoogleDrive.uploadFile is simpler than
 
 You can specify the directory structure via "/" like a usual local file path.
 
@@ -119,9 +126,9 @@ You can access a Google Drive file with a file path in a way similar to the loca
 from pydrive_ex.drive import GoogleDrive
 
 gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
-gfile = gdrive.file("gimages/TestImage.png")  # Find a file with the given file path.
+gfile = gdrive.file("PDTest/Image/HelloImage.png")  # Find a file with the given file path.
 
-## Print Google Drive file attributes.
+# Print Google Drive file attributes.
 print gfile
 print " title        : ", gfile.title
 print " file_path    : ", gfile.file_path
@@ -133,6 +140,7 @@ print " mime_type    : ", gfile.mime_type
 print " created_date : ", gfile.created_date
 print " modified_date: ", gfile.modified_date
 
+
 ```
 
 GoogleDriveFile provides attributes and functions to access Google Drive file properties.
@@ -140,9 +148,9 @@ GoogleDriveFile provides attributes and functions to access Google Drive file pr
 The output will be:
 
 ``` bash
-<File> gimages/TestImage.png
- title        :  TestImage.png
- file_path    :  gimages/TestImage.png
+<File> PDTest/Image/HelloImage.png
+ title        :  HelloImage.png
+ file_path    :  PDTest/Image/HelloImage.png
  file_size    :  19251
  isDir        :  False
  isFile       :  True
@@ -152,6 +160,47 @@ The output will be:
  modified_date:  2016-03-15T05:58:09.870Z
 ```
 
+### Walk Google Drive
+
+GoogleDrive.walk provides a directory visitor similar to os.walk.
+
+``` python
+from pydrive_ex.drive import GoogleDrive
+
+gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
+
+# Create test directories.
+gdrive.deleteFile("WalkTest")
+gdrive.createDir("WalkTest/Dir1")
+gdrive.createDir("WalkTest/Dir2")
+gdrive.createFile("WalkTest/Dir1/TestFile1.txt")
+gdrive.createFile("WalkTest/TestFile2.txt")
+
+# Walk Google Drive for the given directory path.
+for root, gdirs, gfiles in gdrive.walk("WalkTest"):
+    print root
+    for gdir in gdirs:
+        print gdir
+    for gfile in gfiles:
+        print gfile
+    print ""
+
+
+```
+
+The output will be:
+
+``` bash
+WalkTest
+<Dir>  WalkTest/Dir2
+<Dir>  WalkTest/Dir1
+<File> WalkTest/TestFile2.txt
+
+WalkTest/Dir2
+
+WalkTest/Dir1
+<File> WalkTest/Dir1/TestFile1.txt
+```
 
 ### Download a file
 
@@ -161,7 +210,10 @@ This simple three lines will download the Google Drive file to the local.
 from pydrive_ex.drive import GoogleDrive
 
 gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
-gdrive.downloadFile("gimages/TestImage.png", "images/TestDownloadedImage.png")  # Download the Google Drive file to the local.
+
+# Download the Google Drive file to the local.
+gdrive.downloadFile("PDTest/Image/HelloImage.png", "images/TestDownloadedImage.png")
+
 ```
 
 ### Delete a file
@@ -174,11 +226,28 @@ from pydrive_ex.drive import GoogleDrive
 
 gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
 
-gdrive.deleteFile("Hello.txt")  # Delete Google Drive File with 'Hello.txt'
-gdrive.deleteFile("gimages")    # You can specify Google Drive Directory with 'gimages'
+gdrive.deleteFile("PDTest/Hello.txt")  # Delete a single Google Drive File.
+print gdrive.listdir("PDTest")          # Print the file list.
+
+gdrive.deleteFile("PDTest/Image")    # Delete whole Google Drive folder.
+print gdrive.listdir("PDTest")          # Print the file list.
+
 ```
 
-FileDeleteError will be raised if the Google Drive File cannot be deleted.
+The output will be:
+
+``` bash
+2 directories, 0 files.
+  <Dir>  PDTest/Image
+  <Dir>  PDTest/TestDir
+
+1 directories, 0 files.
+  <Dir>  PDTest/TestDir
+
+```
+
+If the target file does not exist, "File is not found" will be printed.
+If the Google Drive access fails, FileDeleteError will be raised.
 
 ## License
 

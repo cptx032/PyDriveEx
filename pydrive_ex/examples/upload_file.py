@@ -8,15 +8,22 @@
 from pydrive_ex.drive import GoogleDrive
 
 gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
-txt_file = gdrive.createFile("Hello.txt")   # Create Google Drive File instance with 'Hello.txt'
+
+# Create directory.
+gdrive.createDir("PDTest/TestDir")
+
+# Upload a text file via GoogleDriveFile instance.
+txt_file = gdrive.createFile("PDTest/Hello.txt", upload=False)
 txt_file.setContentString("Hello World!\n") # Set the content string of the file.
 txt_file.upload()                           # Upload the text file.
 
-image_file = gdrive.createFile("gimages/TestImage.png")       # Create Google Drive File instance with 'TestImage.png'
+# Upload a image file via GoogleDriveFile instance.
+image_file = gdrive.createFile("PDTest/Image/HelloImage.png", upload=False)
 image_file.setContentFile("images/TestImage.png") # Specify a local file.
 image_file.upload()                               # Upload the image file.
 
-# For more convenient, GoogleDrive object has uploadFile function.
-gdrive.uploadFile("gimages/TestImage.png", "images/TestImage.png")
+# For simpler usage, GoogleDrive object has uploadFile function.
+gdrive.uploadFile("PDTest/Image/HelloImage.png", "images/TestImage.png")
 
-print gdrive.listdir()          # Print the file list.
+# Output the file list in the given directory.
+print gdrive.listdir("PDTest")

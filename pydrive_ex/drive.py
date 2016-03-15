@@ -24,11 +24,15 @@ class GoogleDrive:
     #
     #  @param  file_path  target Google Drive file path.
     #  @param  mime_type  not required. GoogleDriveFile.setContentFile automatically assign it.
+    #  @param  upload     default is True. If the value is True, the created file is uploaded to Google Drive.
     #  @retval gfile      pydrive_ex.files.GoogleDriveFile object.
     #
     #  If parent directories do not exist, they are automatically created.
     #  This method would not upload.
-    def createFile(self, file_path, mime_type=None):
+    def createFile(self, file_path, mime_type=None, upload=True):
+        gfile = self.file(file_path)
+        if gfile is not None:
+            return gfile
         parent_dir = os.path.split(file_path)[0]
         if parent_dir != "":
             if not self.exists(parent_dir):
@@ -46,6 +50,8 @@ class GoogleDrive:
             file_meta["parents"] = [{"kind": "drive#fileLink", "id": gdir.id}]
 
         gfile = self._drive.CreateFile(file_meta)
+        if upload:
+            gfile.Upload()
         return GoogleDriveFile(gfile, file_path=file_path)
 
     ## Delete file from the given file path.
@@ -53,11 +59,10 @@ class GoogleDrive:
     #  @param  file_path  target Google Drive file path.
     def deleteFile(self, file_path):
         gfile = self.file(file_path)
-        if not gfile is None:
+        if gfile is not None:
             gfile.delete()
         else:
-            raise FileDeleteError()
-
+            print "File is not found: ", file_path
 
     ## Upload local file to Google Drive.
     #
@@ -88,25 +93,7 @@ class GoogleDrive:
     #
     #  If parent directories do not exist, they are automatically created.
     def createDir(self, dir_path):
-        parent_dir = os.path.split(dir_path)[0]
-
-        if parent_dir != "":
-            if not self.exists(parent_dir):
-                self.createDir(parent_dir)
-
-        dir_name = os.path.split(dir_path)[1]
-
-        file_meta = {'title': dir_name,
-                    "mimeType": "application/vnd.google-apps.folder"}
-
-        if parent_dir != "":
-            gdir = self.file(parent_dir)
-            file_meta["parents"] = [{"kind": "drive#fileLink", "id": gdir.id}]
-
-        gfile = self._drive.CreateFile(file_meta)
-        gfile.Upload()
-
-        return GoogleDriveFile(gfile, file_path=dir_path)
+        return self.createFile(dir_path, "application/vnd.google-apps.folder", upload=True)
 
     ## Get Google Drive file from the given file path.
     #
@@ -154,7 +141,7 @@ class GoogleDrive:
         gfile_list = []
         for gfile in file_list:
             if dir_path is not None:
-                file_path = os.path.join(dir_path, gfile['title'])
+                file_path = os.path.join(dir_path, gfile['title']).replace('\\', '/')
             else:
                 file_path = gfile['title']
             gfile = GoogleDriveFile(gfile, file_path=file_path)
@@ -163,17 +150,12 @@ class GoogleDrive:
 
     ## Walk Google Drive files.
     def walk(self, dir_path=None):
-        dir_path, gdirs, gfiles = self._walk_iter(dir_path)
+        gdir_entries = self.listdir(dir_path)
+        gdirs = gdir_entries.dirs()
+        gfiles = gdir_entries.files()
 
         yield (dir_path, gdirs, gfiles)
 
         for gdir in gdirs:
-            dir_path, gdirs, gfiles = self._walk_iter(gdir.file_path)
-            yield (dir_path, gdirs, gfiles)
-
-    def _walk_iter(self, dir_path=None):
-        gdir_lists = self.listdir(dir_path)
-
-        gdirs = gdir_lists.dirs()
-        gfiles = gdir_lists.files()
-        return (dir_path, gdirs, gfiles)
+            for dir_path, gdirs, gfiles in self.walk(gdir.file_path):
+                yield (dir_path, gdirs, gfiles)

@@ -9,7 +9,8 @@ from pydrive_ex.drive import GoogleDrive
 
 gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
 
-gdrive.deleteFile("Hello.txt")  # Delete Google Drive File with 'Hello.txt'
-gdrive.deleteFile("gimages")    # You can specify Google Drive Directory with 'gimages'
+gdrive.deleteFile("PDTest/Hello.txt")  # Delete a single Google Drive File.
+print gdrive.listdir("PDTest")          # Print the file list.
 
-print gdrive.listdir()          # Print the file list.
+gdrive.deleteFile("PDTest/Image")    # Delete whole Google Drive folder.
+print gdrive.listdir("PDTest")          # Print the file list.

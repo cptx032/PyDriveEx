@@ -8,9 +8,9 @@
 from pydrive_ex.drive import GoogleDrive
 
 gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
-gfile = gdrive.file("gimages/TestImage.png")  # Find a file with the given file path.
+gfile = gdrive.file("PDTest/Image/HelloImage.png")  # Find a file with the given file path.
 
-## Print Google Drive file attributes.
+# Print Google Drive file attributes.
 print gfile
 print " title        : ", gfile.title
 print " file_path    : ", gfile.file_path

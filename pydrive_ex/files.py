@@ -93,7 +93,7 @@ class GoogleDriveFile:
             self.file_size = self._gfile['quotaBytesUsed']
 
 
-
+## Simple extension of pydrive.files.GoogleDriveFileList.
 class GoogleDriveFileList:
     def __init__(self, gfile_list):
         self._gfile_list = gfile_list
@@ -101,19 +101,26 @@ class GoogleDriveFileList:
     def __iter__(self):
         return iter(self._gfile_list)
 
+    def __len__(self):
+        return len(self._gfile_list)
+
+    ## Return the number of directories.
     def numDirs(self):
         return len(self.dirs())
 
+    ## Return the number of files.
     def numFiles(self):
         return len(self.files())
 
+    ## Return the directory list.
     def dirs(self):
         gdirs = [gfile for gfile in self._gfile_list if gfile.isDir()]
-        return gdirs
+        return GoogleDriveFileList(gdirs)
 
+    ## Return the file list.
     def files(self):
         gfiles = [gfile for gfile in self._gfile_list if gfile.isFile()]
-        return gfiles
+        return GoogleDriveFileList(gfiles)
 
     ## Return the string representation of the Google Drive file list.
     def __str__(self):
