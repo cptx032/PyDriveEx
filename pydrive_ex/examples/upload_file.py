@@ -25,5 +25,5 @@ image_file.upload()                               # Upload the image file.
 # For simpler usage, GoogleDrive object has uploadFile function.
 gdrive.uploadFile("PDTest/Image/HelloImage.png", "images/TestImage.png")
 
-# Output the file list in the given directory.
+# Print the file list in the given directory.
 print gdrive.listdir("PDTest")

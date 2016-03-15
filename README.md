@@ -118,90 +118,6 @@ Most of the case, GoogleDrive.uploadFile is simpler than
 
 You can specify the directory structure via "/" like a usual local file path.
 
-### Find a file
-
-You can access a Google Drive file with a file path in a way similar to the local file system.
-
-``` python
-from pydrive_ex.drive import GoogleDrive
-
-gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
-gfile = gdrive.file("PDTest/Image/HelloImage.png")  # Find a file with the given file path.
-
-# Print Google Drive file attributes.
-print gfile
-print " title        : ", gfile.title
-print " file_path    : ", gfile.file_path
-print " file_size    : ", gfile.file_size
-print " isDir        : ", gfile.isDir()
-print " isFile       : ", gfile.isFile()
-print " id           : ", gfile.id
-print " mime_type    : ", gfile.mime_type
-print " created_date : ", gfile.created_date
-print " modified_date: ", gfile.modified_date
-
-
-```
-
-GoogleDriveFile provides attributes and functions to access Google Drive file properties.
-
-The output will be:
-
-``` bash
-<File> PDTest/Image/HelloImage.png
- title        :  HelloImage.png
- file_path    :  PDTest/Image/HelloImage.png
- file_size    :  19251
- isDir        :  False
- isFile       :  True
- id           :  0B73BaE77JCgfZU1Jc2RDMVpuMEC
- mime_type    :  image/png
- created_date :  2016-03-15T05:58:07.607Z
- modified_date:  2016-03-15T05:58:09.870Z
-```
-
-### Walk Google Drive
-
-GoogleDrive.walk provides a directory visitor similar to os.walk.
-
-``` python
-from pydrive_ex.drive import GoogleDrive
-
-gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
-
-# Create test directories.
-gdrive.deleteFile("WalkTest")
-gdrive.createDir("WalkTest/Dir1")
-gdrive.createDir("WalkTest/Dir2")
-gdrive.createFile("WalkTest/Dir1/TestFile1.txt")
-gdrive.createFile("WalkTest/TestFile2.txt")
-
-# Walk Google Drive for the given directory path.
-for root, gdirs, gfiles in gdrive.walk("WalkTest"):
-    print root
-    for gdir in gdirs:
-        print gdir
-    for gfile in gfiles:
-        print gfile
-    print ""
-
-
-```
-
-The output will be:
-
-``` bash
-WalkTest
-<Dir>  WalkTest/Dir2
-<Dir>  WalkTest/Dir1
-<File> WalkTest/TestFile2.txt
-
-WalkTest/Dir2
-
-WalkTest/Dir1
-<File> WalkTest/Dir1/TestFile1.txt
-```
-
 ### Download a file
 
 This simple three lines will download the Google Drive file to the local.
@@ -248,6 +164,92 @@ The output will be:
 
 If the target file does not exist, "File is not found" will be printed.
 If the Google Drive access fails, FileDeleteError will be raised.
+
+## Google Drive Traversal
+
+### Find a file via file path
+
+You can access a Google Drive file via a file path in a way similar to the local file system.
+
+``` python
+from pydrive_ex.drive import GoogleDrive
+
+gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
+gfile = gdrive.file("PDTest/Image/HelloImage.png")  # Find a file with the given file path.
+
+# Print Google Drive file attributes.
+print gfile
+print " title        : ", gfile.title
+print " file_path    : ", gfile.file_path
+print " file_size    : ", gfile.file_size
+print " isDir        : ", gfile.isDir()
+print " isFile       : ", gfile.isFile()
+print " id           : ", gfile.id
+print " mime_type    : ", gfile.mime_type
+print " created_date : ", gfile.created_date
+print " modified_date: ", gfile.modified_date
+
+
+```
+
+GoogleDriveFile provides attributes and functions to access Google Drive file properties.
+
+The output will be:
+
+``` bash
+<File> PDTest/Image/HelloImage.png
+ title        :  HelloImage.png
+ file_path    :  PDTest/Image/HelloImage.png
+ file_size    :  19251
+ isDir        :  False
+ isFile       :  True
+ id           :  0B73BaE77JCgfZU1Jc2RDMVpuMEC
+ mime_type    :  image/png
+ created_date :  2016-03-15T05:58:07.607Z
+ modified_date:  2016-03-15T05:58:09.870Z
+```
+
+### Walk a Google Drive directory
+
+GoogleDrive.walk provides a directory visitor similar to os.walk.
+
+``` python
+from pydrive_ex.drive import GoogleDrive
+
+gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
+
+# Create test directories.
+gdrive.deleteFile("WalkTest")
+gdrive.createDir("WalkTest/Dir1")
+gdrive.createDir("WalkTest/Dir2")
+gdrive.createFile("WalkTest/Dir1/TestFile1.txt")
+gdrive.createFile("WalkTest/TestFile2.txt")
+
+# Walk Google Drive for the given directory path.
+for root, gdirs, gfiles in gdrive.walk("WalkTest"):
+    print root
+    for gdir in gdirs:
+        print gdir
+    for gfile in gfiles:
+        print gfile
+    print ""
+
+
+```
+
+The output will be:
+
+``` bash
+WalkTest
+<Dir>  WalkTest/Dir2
+<Dir>  WalkTest/Dir1
+<File> WalkTest/TestFile2.txt
+
+WalkTest/Dir2
+
+WalkTest/Dir1
+<File> WalkTest/Dir1/TestFile1.txt
+```
 
 ## License
 
