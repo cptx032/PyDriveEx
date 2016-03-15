@@ -14,8 +14,8 @@ txt_file.setContentString("Hello World!\n") # Set the content string of the file
 txt_file.upload()                           # Upload the text file.
 
 image_file = gdrive.createFile("gimages/TestImage.png")       # Create Google Drive File instance with 'TestImage.png'
-image_file.setContentFile("images/TestImage.png") # Specify the local file.
-image_file.upload()                               # Upload the text file.
+image_file.setContentFile("images/TestImage.png") # Specify a local file.
+image_file.upload()                               # Upload the image file.
 
 # For more convenient, GoogleDrive object has uploadFile function.
 gdrive.uploadFile("gimages/TestImage.png", "images/TestImage.png")

@@ -17,11 +17,12 @@ class FileDeleteError(RuntimeError):
 #
 #  The instance is created from pydrive_ex.drive.GoogleDrive functions.
 class GoogleDriveFile:
-    def __init__(self, gfile):
+    def __init__(self, gfile, file_path=""):
         self._gfile = gfile
         self.title = self._gfile['title']
         self.id = None
         self.mime_type = None
+        self.file_path = file_path
         self._updateAttr()
 
     ## Return if the Google Drive file is directory or not.
@@ -71,7 +72,7 @@ class GoogleDriveFile:
             ret_str += "<Dir>  "
         else:
             ret_str += "<File> "
-        ret_str += self.title
+        ret_str += self.file_path
         return ret_str
 
     ## Update the inner attributes.

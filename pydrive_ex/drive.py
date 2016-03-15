@@ -47,7 +47,7 @@ class GoogleDrive:
             file_meta["parents"] = [{"kind": "drive#fileLink", "id": gdir.id}]
 
         gfile = self._drive.CreateFile(file_meta)
-        return GoogleDriveFile(gfile)
+        return GoogleDriveFile(gfile, file_path=file_path)
 
     ## Delete file from the given file path.
     #
@@ -107,7 +107,7 @@ class GoogleDrive:
         gfile = self._drive.CreateFile(file_meta)
         gfile.Upload()
 
-        return GoogleDriveFile(gfile)
+        return GoogleDriveFile(gfile, file_path=dir_path)
 
     ## Get Google Drive file from the given file path.
     #
@@ -130,7 +130,7 @@ class GoogleDrive:
         file_list = self._drive.ListFile({'q': "'%s' in parents and trashed=false" %parent_id}).GetList()
         for gfile in file_list:
             if gfile['title'] == file_name:
-                return GoogleDriveFile(gfile)
+                return GoogleDriveFile(gfile, file_path=file_path)
 
     ## Return if the given Google Drive file path exists or not.
     #
@@ -154,6 +154,10 @@ class GoogleDrive:
         file_list = self._drive.ListFile({'q': "'%s' in parents and trashed=false" %parent_id}).GetList()
         gfile_list = []
         for gfile in file_list:
-            gfile = GoogleDriveFile(gfile)
+            if dir_path is not None:
+                file_path = os.path.join(dir_path, gfile['title'])
+            else:
+                file_path = gfile['title']
+            gfile = GoogleDriveFile(gfile, file_path=file_path)
             gfile_list.append(gfile)
         return GoogleDriveFileList(gfile_list)
