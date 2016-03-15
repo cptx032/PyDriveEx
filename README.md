@@ -4,6 +4,13 @@ Simple PyDrive Extension. (Python)
 
 This package provides a simple extension of [PyDrive](http://pythonhosted.org/PyDrive/) that wraps the Google Drive API tasks as like a common os module.
 
+Main extensions:
+
+* Making easy to create a directory.
+* File path access for Google Drive file.
+* Additional Google Drive file attributes to treat them like a local file system.
+* Delete function for Google Drive file, directory.
+
 ## Installation
 
 *Note*: This program was only tested on **Windows** with **Python2.7**.
