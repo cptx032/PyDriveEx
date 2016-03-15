@@ -126,6 +126,7 @@ print " mime_type: ", gfile.mime_type
 ```
 
 GoogleDriveFile provides attributes and functions to access Google Drive file properties.
+
 The output will be:
 
 ``` bash
