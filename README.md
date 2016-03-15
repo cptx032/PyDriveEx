@@ -95,6 +95,17 @@ Most of the case, GoogleDrive.uploadFile is convenient for uploading the file.
 
 You can specify the directory structure via "/" like a usual local file path.
 
+### Download a file
+
+This simple three lines will download the Google Drive file to the local.
+
+``` python
+from pydrive_ex.drive import GoogleDrive
+
+gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
+gdrive.downloadFile("gimages/TestImage.png", "images/TestDownloadedImage.png")  # Download the Google Drive file to the local.
+```
+
 ### Delete a file
 
 Since the original PyDrive does not support a delete function,
