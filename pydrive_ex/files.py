@@ -93,6 +93,7 @@ class GoogleDriveFile:
             self.file_size = self._gfile['quotaBytesUsed']
 
 
+
 class GoogleDriveFileList:
     def __init__(self, gfile_list):
         self._gfile_list = gfile_list
@@ -101,20 +102,18 @@ class GoogleDriveFileList:
         return iter(self._gfile_list)
 
     def numDirs(self):
-        num_dirs = 0
-
-        for gfile in self._gfile_list:
-            if gfile.isDir():
-                num_dirs += 1
-        return num_dirs
+        return len(self.dirs())
 
     def numFiles(self):
-        num_files = 0
+        return len(self.files())
 
-        for gfile in self._gfile_list:
-            if gfile.isFile():
-                num_files += 1
-        return num_files
+    def dirs(self):
+        gdirs = [gfile for gfile in self._gfile_list if gfile.isDir()]
+        return gdirs
+
+    def files(self):
+        gfiles = [gfile for gfile in self._gfile_list if gfile.isFile()]
+        return gfiles
 
     ## Return the string representation of the Google Drive file list.
     def __str__(self):

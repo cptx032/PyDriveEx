@@ -160,3 +160,20 @@ class GoogleDrive:
             gfile = GoogleDriveFile(gfile, file_path=file_path)
             gfile_list.append(gfile)
         return GoogleDriveFileList(gfile_list)
+
+    ## Walk Google Drive files.
+    def walk(self, dir_path=None):
+        dir_path, gdirs, gfiles = self._walk_iter(dir_path)
+
+        yield (dir_path, gdirs, gfiles)
+
+        for gdir in gdirs:
+            dir_path, gdirs, gfiles = self._walk_iter(gdir.file_path)
+            yield (dir_path, gdirs, gfiles)
+
+    def _walk_iter(self, dir_path=None):
+        gdir_lists = self.listdir(dir_path)
+
+        gdirs = gdir_lists.dirs()
+        gfiles = gdir_lists.files()
+        return (dir_path, gdirs, gfiles)
