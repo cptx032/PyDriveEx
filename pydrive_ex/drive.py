@@ -16,6 +16,10 @@ from files import GoogleDriveFile, GoogleDriveFileList, FileDeleteError
 #
 #  By default, GoogleAuth with the current working directory is used for the authentication.
 class GoogleDrive:
+
+    ## Create GoogleDrive instance.
+    #
+    #  @param auth  GoogleAuth setting. Default is provided by GoogleAuth().
     def __init__(self, auth=GoogleAuth()):
         self._auth = auth
         self._drive = pydrive.drive.GoogleDrive(auth)
@@ -25,10 +29,10 @@ class GoogleDrive:
     #  @param  file_path  target Google Drive file path.
     #  @param  mime_type  not required. GoogleDriveFile.setContentFile automatically assign it.
     #  @param  upload     default is True. If the value is True, the created file is uploaded to Google Drive.
-    #  @retval gfile      pydrive_ex.files.GoogleDriveFile object.
+    #  @retval gfile      GoogleDriveFile instance.
     #
     #  If parent directories do not exist, they are automatically created.
-    #  This method would not upload.
+    #  This method would not upload if the upload value is False.
     def createFile(self, file_path, mime_type=None, upload=True):
         gfile = self.file(file_path)
         if gfile is not None:
@@ -57,6 +61,8 @@ class GoogleDrive:
     ## Delete file from the given file path.
     #
     #  @param  file_path  target Google Drive file path.
+    #
+    #  If the file is not found, the method just prints debug message.
     def deleteFile(self, file_path):
         gfile = self.file(file_path)
         if gfile is not None:
@@ -130,8 +136,8 @@ class GoogleDrive:
 
     ## Return the list of Google Drive files included in the given Google Drive direcotry.
     #
-    #  @param  dir_path   target Google Drive directory path.
-    #  @retval gfile_list list of pydrive_ex.files.GoogleDriveFile objects.
+    #  @param  dir_path    target Google Drive directory path.
+    #  @retval gfile_list  GoogleDriveFileList instance.
     def listdir(self, dir_path=None):
         parent_id = "root"
 
@@ -151,7 +157,10 @@ class GoogleDrive:
     ## Walk Google Drive files.
     #
     #  @param  dir_path   target Google Drive directory path.
-    #  @retval  (dir_path, gdirs, gfiles) iterators.
+    #  @retval walk_it    (dir_path, gdirs, gfiles) iterators.
+    #  @retval dir_path   string for directory path.
+    #  @retval gdirs      GoogleDriveFileList instance.
+    #  @retval gfiles     GoogleDriveFileList instance.
     def walk(self, dir_path=None):
         gdir_entries = self.listdir(dir_path)
         gdirs = gdir_entries.dirs()

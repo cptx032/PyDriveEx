@@ -13,10 +13,24 @@ class FileDeleteError(RuntimeError):
     pass
 
 
-## Simple extension of pydrive.files.GoogleDriveFile.
+## Simple extension of PyDrive GoogleDriveFile class.
 #
 #  The instance is created from pydrive_ex.drive.GoogleDrive functions.
+#
+#  Attributes:
+#  - title          file name.
+#  - id             file id.
+#  - mime_type      mime type.
+#  - file_path      file path.
+#  - created_date   created date.
+#  - modified_date  modified date.
+#  - file_size      file size (byte).
 class GoogleDriveFile:
+
+    ## Create GoogleDriveFile instance.
+    #
+    #  @param gfile      original PyDrive GoogleDriveFile instance.
+    #  @param file_path  file path for the Google Drive file.
     def __init__(self, gfile, file_path=""):
         self._gfile = gfile
         self.title = self._gfile['title']
@@ -28,7 +42,7 @@ class GoogleDriveFile:
         self.file_size = None
         self._updateAttr()
 
-    ## Return the original meta data of pydrive.drive.GoogleDriveFile.
+    ## Return the original meta data of PyDrive GoogleDriveFile.
     def metaData(self):
         return self._gfile
 
@@ -41,6 +55,7 @@ class GoogleDriveFile:
         return not self.isDir()
 
     ## Download the content file to the give local file.
+    #
     #  @param  local_file   target local file path.
     def getContentFile(self, local_file):
         self._gfile.GetContentFile(local_file)
@@ -50,11 +65,13 @@ class GoogleDriveFile:
         self._gfile.GetContentString()
 
     ## Upload the local file to the Google Drive file.
+    #
     #  @param  local_file   target local file path.
     def setContentFile(self, local_file):
         self._gfile.SetContentFile(local_file)
 
     ## Upload the content string to the Google Drive file.
+    #
     #  @param  content_string  given string to store.
     def setContentString(self, content_string):
         self._gfile.SetContentString(content_string)
@@ -99,12 +116,18 @@ class GoogleDriveFile:
 
 ## Simple extension of pydrive.files.GoogleDriveFileList.
 class GoogleDriveFileList:
+
+    ## Create GoogleDriveFileList instance.
+    #
+    #  @param gfile_list  python list of GoogleDriveFile.
     def __init__(self, gfile_list):
         self._gfile_list = gfile_list
 
+    ## Return the iterator for Google Drive file list.
     def __iter__(self):
         return iter(self._gfile_list)
 
+    ## Return the number of directories and files.
     def __len__(self):
         return len(self._gfile_list)
 
@@ -117,11 +140,15 @@ class GoogleDriveFileList:
         return len(self.files())
 
     ## Return the directory list.
+    #
+    #  @retval gdirs  GoogleDriveFileList instance.
     def dirs(self):
         gdirs = [gfile for gfile in self._gfile_list if gfile.isDir()]
         return GoogleDriveFileList(gdirs)
 
     ## Return the file list.
+    #
+    #  @retval gfiles  GoogleDriveFileList instance.
     def files(self):
         gfiles = [gfile for gfile in self._gfile_list if gfile.isFile()]
         return GoogleDriveFileList(gfiles)

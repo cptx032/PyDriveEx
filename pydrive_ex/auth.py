@@ -10,8 +10,9 @@ import os
 
 
 ## Simple extension of pydrive.auth.GoogleAuth.
+#
 #  @param   auth_dir  directory to store client_secrets.json and credentials.json.
-#  @retval  gauth     pydrive.auth.GoogleAuth object
+#  @retval  gauth     pydrive.auth.GoogleAuth instance.
 def GoogleAuth(auth_dir=None):
     cwd = os.getcwd()
     if auth_dir is not None:
