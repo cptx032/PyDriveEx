@@ -269,6 +269,14 @@ WalkTest/Dir1
 <File> WalkTest/Dir1/TestFile1.txt
 ```
 
+## Known Issues
+
+My extensions just focus on easy handling of Google Drive data manipulations.
+Mainly I expect that this package is used for managing your own Google Drive data
+so that the authentication process is not customized for specific applications.
+
+Performance is not fully-tuned with Google Drive API version 2 (as is PyDrive implementation).
+
 ## License
 
 The MIT License 2016 (c) tody
