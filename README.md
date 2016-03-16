@@ -2,15 +2,16 @@
 Simple PyDrive Extension. (Python)
 ====
 
-This package provides a simple extension of [PyDrive](http://pythonhosted.org/PyDrive/)
-that makes the Google Drive API tasks easier like common os module.
+PyDriveEx package adds simple utility functions to [PyDrive](http://pythonhosted.org/PyDrive/)
+for easy handling of the Google Drive API.
+You can handle Google Drive directories and files like built-in os module.
 
 Main extensions:
 
-* Support file path access for Google Drive directories and files.
-* Provide easy create / upload function for Google Drive directories and files.
-* Provide delete function for Google Drive directories and files.
-* Support Google Drive file visitor like os.walk.
+* File path access for Google Drive directories and files.
+* Easy create / upload function for Google Drive directories and files.
+* Delete function for Google Drive directories and files.
+* Google Drive file visitor like os.walk.
 
 ## Installation
 
@@ -68,7 +69,7 @@ To make this code work, you need to prepare the your Google Drive setting to run
 2. On **Services** menu, turn Drive API on.
 3. On **API Access** menu, create OAuth2.0 client ID.
   * Select *Application type* to be Web application.
-4. Download client_secrets.json and put it in your working directory.
+4. Download **client_secrets.json** and put it in your working directory.
 
 I highly recommend you to create **settings.yaml** to save credentials file.
 
@@ -84,11 +85,16 @@ save_credentials_file: credentials.json
 If the file is put in the same working directory,
 the authentication process will be skipped from the second time.
 
+You can run PyDriveEx examples in ```pydrive_ex/examples```
+by putting your own **client_secrets.json** in the directory
+(**settings.yaml** is included in ```pydrive_ex/examples```).
 
 
 ## File Management
 
 ### Upload a new file
+
+[```pydrive_ex/examples/upload_file.py```](pydrive_ex/examples/upload_file.py)
 
 You can easily upload a new file via GoogleDriveFile instance or
 GoogleDrive.uploadFile function.
@@ -124,6 +130,8 @@ You can specify the directory structure via "/" like a usual local file path.
 
 ### Download a file
 
+[```pydrive_ex/examples/download_file.py```](pydrive_ex/examples/download_file.py)
+
 This simple three lines will download the Google Drive file to the local.
 
 ``` python
@@ -137,6 +145,8 @@ gdrive.downloadFile("PDTest/Image/HelloImage.png", "images/TestDownloadedImage.p
 ```
 
 ### Delete a file
+
+[```pydrive_ex/examples/delete_file.py```](pydrive_ex/examples/delete_file.py)
 
 Since the original PyDrive does not support a delete function,
 I extend the delete functionality in PyDriveEx.
@@ -172,6 +182,8 @@ If the Google Drive access fails, FileDeleteError will be raised.
 ## Google Drive Traversal
 
 ### Find a file via file path
+
+[```pydrive_ex/examples/find_file.py```](pydrive_ex/examples/find_file.py)
 
 You can access a Google Drive file via a file path in a way similar to the local file system.
 
@@ -214,6 +226,8 @@ The output will be:
 ```
 
 ### Walk a Google Drive directory
+
+[```pydrive_ex/examples/walk_drive.py```](pydrive_ex/examples/walk_drive.py)
 
 GoogleDrive.walk provides a directory visitor similar to os.walk.
 
