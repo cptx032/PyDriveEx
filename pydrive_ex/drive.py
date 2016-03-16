@@ -149,6 +149,9 @@ class GoogleDrive:
         return GoogleDriveFileList(gfile_list)
 
     ## Walk Google Drive files.
+    #
+    #  @param  dir_path   target Google Drive directory path.
+    #  @retval  (dir_path, gdirs, gfiles) iterators.
     def walk(self, dir_path=None):
         gdir_entries = self.listdir(dir_path)
         gdirs = gdir_entries.dirs()

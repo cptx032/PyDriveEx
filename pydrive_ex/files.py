@@ -28,6 +28,10 @@ class GoogleDriveFile:
         self.file_size = None
         self._updateAttr()
 
+    ## Return the original meta data of pydrive.drive.GoogleDriveFile.
+    def metaData(self):
+        return self._gfile
+
     ## Return if the Google Drive file is directory or not.
     def isDir(self):
         return self.mime_type == "application/vnd.google-apps.folder"
