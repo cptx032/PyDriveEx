@@ -80,7 +80,7 @@ class GoogleDriveFile:
     def delete(self):
         try:
             self._gfile.auth.service.files().delete(fileId=self.id).execute()
-        except errors.HttpError, error:
+        except errors.HttpError as error:
             raise FileDeleteError()
 
     ## Upload the file to the Google Drive.
@@ -102,16 +102,16 @@ class GoogleDriveFile:
     ## Update the inner attributes.
     def _updateAttr(self):
         self.title = self._gfile['title']
-        if self._gfile.has_key('id'):
-            self.id = self._gfile['id']
-        if self._gfile.has_key('mimeType'):
-            self.mime_type = self._gfile['mimeType']
-        if self._gfile.has_key('createdDate'):
-            self.created_date = self._gfile['createdDate']
-        if self._gfile.has_key('modifiedDate'):
-            self.modified_date = self._gfile['modifiedDate']
-        if self._gfile.has_key('quotaBytesUsed'):
-            self.file_size = self._gfile['quotaBytesUsed']
+        if 'id' in self._gfile.metadata:
+            self.id = self._gfile.metadata['id']
+        if 'mimeType' in self._gfile.metadata:
+            self.mime_type = self._gfile.metadata['mimeType']
+        if 'createdDate' in self._gfile.metadata:
+            self.created_date = self._gfile.metadata['createdDate']
+        if 'modifiedDate' in self._gfile.metadata:
+            self.modified_date = self._gfile.metadata['modifiedDate']
+        if 'quotaBytesUsed' in self._gfile.metadata:
+            self.file_size = self._gfile.metadata['quotaBytesUsed']
 
 
 ## Simple extension of pydrive.files.GoogleDriveFileList.

@@ -5,11 +5,13 @@
 #  @author      tody
 #  @date        2016/03/15
 
+from __future__ import print_function
+
 import pydrive.drive
 import os
 
-from auth import GoogleAuth
-from files import GoogleDriveFile, GoogleDriveFileList, FileDeleteError
+from .auth import GoogleAuth
+from .files import GoogleDriveFile, GoogleDriveFileList
 
 
 ## Simple extension of pydrive.drive.GoogleDrive.
@@ -68,7 +70,7 @@ class GoogleDrive:
         if gfile is not None:
             gfile.delete()
         else:
-            print "File is not found: ", file_path
+            print("File is not found: ", file_path)
 
     ## Upload local file to Google Drive.
     #

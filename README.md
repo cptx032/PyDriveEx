@@ -15,8 +15,8 @@ Main extensions:
 
 ## Installation
 
-*Note*: This program was only tested on **Windows** with **Python2.7**.
-**Linux** and **Mac OS** are not officially supported,
+*Note*: This program was only tested on **Linux** with **Python3.5**.
+**Windows** and **Mac OS** are not officially supported,
 but the following instructions might be helpful for installing on those environments.
 
 ### Dependencies
@@ -38,7 +38,7 @@ You can use **pip** command for installing main modules.
 Please run the following command from the shell.
 
 ``` bash
-  > pip install git+https://github.com/tody411/PyDriveEx.git
+  > pip install git+https://github.com/cptx032/PyDriveEx.git
 ```
 
 ## Quick Start
@@ -50,7 +50,7 @@ from pydrive_ex.drive import GoogleDrive
 
 gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
 gfile_list = gdrive.listdir()   # Get the file list of the root directory.
-print gfile_list                # Print the file list.
+print(gfile_list)                # Print the file list.
 ```
 
 The output will be:
@@ -157,10 +157,10 @@ from pydrive_ex.drive import GoogleDrive
 gdrive = GoogleDrive()          # Create Google Drive instance with default setting.
 
 gdrive.deleteFile("PDTest/Hello.txt")  # Delete a single Google Drive File.
-print gdrive.listdir("PDTest")          # Print the file list.
+print(gdrive.listdir("PDTest"))          # Print the file list.
 
 gdrive.deleteFile("PDTest/Image")    # Delete whole Google Drive folder.
-print gdrive.listdir("PDTest")          # Print the file list.
+print(gdrive.listdir("PDTest"))          # Print the file list.
 
 ```
 
@@ -194,18 +194,16 @@ gdrive = GoogleDrive()          # Create Google Drive instance with default sett
 gfile = gdrive.file("PDTest/Image/HelloImage.png")  # Find a file with the given file path.
 
 # Print Google Drive file attributes.
-print gfile
-print " title        : ", gfile.title
-print " file_path    : ", gfile.file_path
-print " file_size    : ", gfile.file_size
-print " isDir        : ", gfile.isDir()
-print " isFile       : ", gfile.isFile()
-print " id           : ", gfile.id
-print " mime_type    : ", gfile.mime_type
-print " created_date : ", gfile.created_date
-print " modified_date: ", gfile.modified_date
-
-
+print(gfile)
+print(" title        : ", gfile.title)
+print(" file_path    : ", gfile.file_path)
+print(" file_size    : ", gfile.file_size)
+print(" isDir        : ", gfile.isDir())
+print(" isFile       : ", gfile.isFile())
+print(" id           : ", gfile.id)
+print(" mime_type    : ", gfile.mime_type)
+print(" created_date : ", gfile.created_date)
+print(" modified_date: ", gfile.modified_date)
 ```
 
 GoogleDriveFile provides attributes and functions to access Google Drive file properties.
@@ -245,12 +243,12 @@ gdrive.createFile("WalkTest/TestFile2.txt")
 
 # Walk Google Drive for the given directory path.
 for root, gdirs, gfiles in gdrive.walk("WalkTest"):
-    print root
+    print(root)
     for gdir in gdirs:
-        print gdir
+        print(gdir)
     for gfile in gfiles:
-        print gfile
-    print ""
+        print(gfile)
+    print("")
 
 
 ```
